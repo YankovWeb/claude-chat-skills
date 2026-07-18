@@ -1,39 +1,48 @@
-# Claude Chat Skills — 12 thinking skills for Claude.ai
+# Claude Chat Skills — 12 thinking skills
 
-Reusable [Agent Skills](https://claude.com/docs/skills/how-to) for **Claude.ai** (web/desktop) and Claude Code. Same idea as coding skills, but aimed at everyday thinking work: explaining, debating, estimating, naming, negotiating, studying, and pressure-testing text.
+Reusable [Agent Skills](https://claude.com/docs/skills/how-to) (`SKILL.md`) for everyday thinking work: explaining, debating, estimating, naming, negotiating, studying, and pressure-testing text.
 
-Each skill is a folder with a `SKILL.md`. Ready-to-upload `.skill` zips live in `packages/`.
+Works in **Claude.ai**, **Claude Code**, **Cursor**, and **OpenAI Codex** — same folders, different install paths. Ready-to-upload `.skill` zips for Claude.ai live in `packages/`.
 
 ---
 
 ## Install
 
-### Claude.ai (recommended)
+| Tool | Project path | Global path |
+|------|--------------|-------------|
+| **Claude.ai** | Upload `packages/*.skill` → Customize → Skills | — |
+| **Claude Code** | `.claude/skills/` | `~/.claude/skills/` |
+| **Cursor** | `.cursor/skills/` (also reads `.claude/skills/` / `.agents/skills/`) | `~/.cursor/skills/` |
+| **Codex (GPT)** | `.codex/skills/` or `.agents/skills/` | `~/.codex/skills/` / `~/.agents/skills/` |
 
-1. Open **Customize → Skills** (or Settings → Capabilities → Skills).
+### Claude.ai (recommended for chat)
+
+1. Open **Customize → Skills**.
 2. Upload a file from [`packages/`](packages/) (e.g. `packages/analogy-engine.skill`).
 3. Enable the skill.
 
-The `.skill` file is a zip whose root is the skill folder (`analogy-engine/SKILL.md` inside). That layout is required by Claude.ai.
-
-### Claude Code
+### One-liner helper (Claude Code / Cursor / Codex)
 
 ```bash
-# project-scoped:
+chmod +x scripts/install-skills.sh
+./scripts/install-skills.sh claude /path/to/your-project
+./scripts/install-skills.sh cursor /path/to/your-project
+./scripts/install-skills.sh codex  /path/to/your-project
+./scripts/install-skills.sh agents /path/to/your-project   # shared Cursor+Codex path
+./scripts/install-skills.sh claude --global
+```
+
+### Manual copy (Claude Code example)
+
+```bash
 mkdir -p your-project/.claude/skills
 cp -R analogy-engine assumption-xray decision-record explain-ladder \
   fermi-dojo naming-forge negotiation-war-room premortem-ritual \
   recall-forge red-team-my-text socratic-tutor steelman-arena \
   your-project/.claude/skills/
-
-# global:
-mkdir -p ~/.claude/skills && cp -R analogy-engine assumption-xray \
-  decision-record explain-ladder fermi-dojo naming-forge \
-  negotiation-war-room premortem-ritual recall-forge red-team-my-text \
-  socratic-tutor steelman-arena ~/.claude/skills/
 ```
 
-Invoke with `/analogy-engine` or by asking in natural language.
+Invoke with `/analogy-engine` or natural language.
 
 ---
 
@@ -62,19 +71,14 @@ Invoke with `/analogy-engine` or by asking in natural language.
 claude-chat-skills/
 ├── analogy-engine/SKILL.md   ← source (edit here)
 ├── …                         ← one folder per skill
-├── packages/*.skill          ← ready to upload to Claude.ai
-├── scripts/pack-skills.sh    ← maintainer only: rebuild packages/
+├── packages/*.skill          ← Claude.ai upload packages
+├── scripts/install-skills.sh ← copy into Claude/Cursor/Codex paths
+├── scripts/pack-skills.sh    ← maintainer: rebuild packages/
 ├── LICENSE
 └── README.md
 ```
 
-After editing a `SKILL.md`, rebuild upload packages with:
-
-```bash
-./scripts/pack-skills.sh
-```
-
-Installers do **not** need that script — use `packages/*.skill` or copy the folders.
+After editing a `SKILL.md`, rebuild Claude.ai packages with `./scripts/pack-skills.sh`.
 
 ---
 
